@@ -9,30 +9,77 @@ body {
     background: #f5f7fa;
     color: #333;
     line-height: 1.6;
-    padding: 20px;
+    display: flex;
+    min-height: 100vh;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    font-size: 1.8rem;
-    color: #1a1a2e;
-}
-
-.subtitle {
-    color: #666;
-    margin-top: 5px;
-}
-
-main {
-    max-width: 800px;
-    margin: 0 auto;
+.sidebar {
+    width: 220px;
+    background: #1a1a2e;
+    color: #fff;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid #2d2d44;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 12px 0;
+}
+
+.nav-menu li {
+    margin: 0;
+}
+
+.nav-link {
+    display: block;
+    padding: 12px 20px;
+    color: #aab;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+    background: #2d2d44;
+    color: #fff;
+}
+
+.nav-link.active {
+    background: #4361ee;
+    color: #fff;
+}
+
+.content {
+    margin-left: 220px;
+    flex: 1;
+    padding: 30px;
+}
+
+.content h2 {
+    margin-bottom: 20px;
+    color: #1a1a2e;
+    font-size: 1.5rem;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
 }
 
 .card {
@@ -40,12 +87,6 @@ main {
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card h2 {
-    margin-bottom: 16px;
-    color: #1a1a2e;
-    font-size: 1.3rem;
 }
 
 .btn {
@@ -81,7 +122,6 @@ main {
     padding: 40px 20px;
     text-align: center;
     transition: border-color 0.3s, background-color 0.3s;
-    position: relative;
 }
 
 .upload-area.drag-over {
@@ -211,11 +251,4 @@ textarea {
 
 .copy-feedback.visible {
     opacity: 1;
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    color: #888;
-    font-size: 0.85rem;
 }

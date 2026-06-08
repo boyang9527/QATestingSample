@@ -1,7 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
+  initNavigation();
   initFileUpload();
   initClipboard();
 });
+
+function initNavigation() {
+  var links = document.querySelectorAll(".nav-link");
+  links.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      var pageId = this.getAttribute("data-page");
+
+      links.forEach(function (l) { l.classList.remove("active"); });
+      this.classList.add("active");
+
+      document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
+      document.getElementById(pageId).classList.add("active");
+
+      window.location.hash = pageId;
+    });
+  });
+
+  var hash = window.location.hash.replace("#", "");
+  if (hash) {
+    var target = document.querySelector('[data-page="' + hash + '"]');
+    if (target) target.click();
+  }
+}
 
 function initFileUpload() {
   var dropZone = document.getElementById("drop-zone");
