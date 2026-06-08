@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Testing Sample App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>QA Testing Sample Application</h1>
+        <p class="subtitle">UI elements for QA agent testing</p>
+    </header>
+
+    <main>
+        <section id="file-upload-section" class="card">
+            <h2>File Upload</h2>
+
+            <div class="upload-area" id="drop-zone">
+                <div class="upload-icon">&#128228;</div>
+                <p>Drag & drop files here or click to browse</p>
+                <input type="file" id="file-input" multiple aria-label="Choose files to upload">
+                <button id="browse-btn" class="btn btn-primary">Browse Files</button>
+            </div>
+
+            <div id="file-list" class="file-list" aria-live="polite">
+                <h3>Uploaded Files</h3>
+                <ul id="file-items"></ul>
+            </div>
+
+            <div class="upload-status" id="upload-status" aria-live="polite"></div>
+        </section>
+
+        <section id="clipboard-section" class="card">
+            <h2>Copy to Clipboard</h2>
+
+            <div class="clipboard-item">
+                <label for="text-input">Text to copy:</label>
+                <div class="input-group">
+                    <input type="text" id="text-input" value="Sample text for clipboard testing" aria-label="Text to copy to clipboard">
+                    <button id="copy-text-btn" class="btn btn-secondary" data-copy-target="text-input">Copy</button>
+                </div>
+                <span class="copy-feedback" id="copy-text-feedback" aria-live="polite"></span>
+            </div>
+
+            <div class="clipboard-item">
+                <label for="textarea-input">Multi-line text:</label>
+                <textarea id="textarea-input" rows="4" aria-label="Multi-line text to copy to clipboard">Line 1: Hello World
+Line 2: QA Testing
+Line 3: Clipboard functionality
+Line 4: Multiple lines work correctly</textarea>
+                <button id="copy-textarea-btn" class="btn btn-secondary" data-copy-target="textarea-input">Copy to Clipboard</button>
+                <span class="copy-feedback" id="copy-textarea-feedback" aria-live="polite"></span>
+            </div>
+
+            <div class="clipboard-item">
+                <label>Generated content:</label>
+                <div class="generated-content" id="generated-content">
+                    <code id="generated-text">const uuid = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";</code>
+                </div>
+                <button id="copy-generated-btn" class="btn btn-secondary" data-copy-target="generated-text">Copy Code</button>
+                <span class="copy-feedback" id="copy-generated-feedback" aria-live="polite"></span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>QA Testing Sample App v1.0.0</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
