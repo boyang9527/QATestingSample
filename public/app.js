@@ -6,25 +6,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function initNavigation() {
   var links = document.querySelectorAll(".nav-link");
+  var loginBtn = document.getElementById("login-btn");
+
+  function showPage(pageId) {
+    links.forEach(function (l) { l.classList.remove("active"); });
+    var navTarget = document.querySelector('[data-page="' + pageId + '"]');
+    if (navTarget) navTarget.classList.add("active");
+
+    document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
+    document.getElementById(pageId).classList.add("active");
+
+    window.location.hash = pageId;
+  }
+
   links.forEach(function (link) {
     link.addEventListener("click", function (e) {
       e.preventDefault();
-      var pageId = this.getAttribute("data-page");
-
-      links.forEach(function (l) { l.classList.remove("active"); });
-      this.classList.add("active");
-
-      document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
-      document.getElementById(pageId).classList.add("active");
-
-      window.location.hash = pageId;
+      showPage(this.getAttribute("data-page"));
     });
+  });
+
+  loginBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    showPage("login");
   });
 
   var hash = window.location.hash.replace("#", "");
   if (hash) {
-    var target = document.querySelector('[data-page="' + hash + '"]');
-    if (target) target.click();
+    showPage(hash);
   }
 }
 

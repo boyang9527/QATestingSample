@@ -66,6 +66,98 @@ body {
     margin-left: 220px;
     flex: 1;
     padding: 30px;
+    position: relative;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.btn-login {
+    background: #4361ee;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-login:hover {
+    background: #3a56d4;
+}
+
+.login-card {
+    max-width: 400px;
+}
+
+.login-subtitle {
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.social-login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-social:hover {
+    opacity: 0.85;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.btn-google {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.btn-google .social-icon {
+    color: #4285f4;
+}
+
+.btn-github {
+    background: #24292e;
+    color: #fff;
+}
+
+.btn-github .social-icon {
+    color: #fff;
+}
+
+.btn-apple {
+    background: #000;
+    color: #fff;
+}
+
+.btn-apple .social-icon {
+    color: #fff;
 }
 
 .content h2 {
