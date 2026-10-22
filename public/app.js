@@ -1,20 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
-  initNavigation();
-  initFileUpload();
-  initClipboard();
+  try { initFileUpload(); } catch (e) { /* keep other initialisers running */ }
+  try { initClipboard(); } catch (e) { /* keep other initialisers running */ }
+  try { initNavigation(); } catch (e) { /* keep other initialisers running */ }
 });
 
 function initNavigation() {
+  var PAGES = ["login", "file-upload", "clipboard"];
   var links = document.querySelectorAll(".nav-link");
   var loginBtn = document.getElementById("login-btn");
 
   function showPage(pageId) {
+    if (PAGES.indexOf(pageId) === -1) {
+      pageId = "file-upload";
+    }
+    var page = document.getElementById(pageId);
+    if (!page) {
+      return;
+    }
+
     links.forEach(function (l) { l.classList.remove("active"); });
     var navTarget = document.querySelector('[data-page="' + pageId + '"]');
     if (navTarget) navTarget.classList.add("active");
 
     document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
-    document.getElementById(pageId).classList.add("active");
+    page.classList.add("active");
 
     window.location.hash = pageId;
   }
@@ -26,10 +35,12 @@ function initNavigation() {
     });
   });
 
-  loginBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    showPage("login");
-  });
+  if (loginBtn) {
+    loginBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      showPage("login");
+    });
+  }
 
   var hash = window.location.hash.replace("#", "");
   if (hash) {
