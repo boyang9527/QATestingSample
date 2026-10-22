@@ -71,7 +71,7 @@
                     <label for="text-input">Text to copy:</label>
                     <div class="input-group">
                         <input type="text" id="text-input" value="Sample text for clipboard testing" aria-label="Text to copy to clipboard">
-                        <button id="copy-text-btn" class="btn btn-secondary" data-copy-target="text-input">Copy</button>
+                        <button id="copy-text-btn" class="btn btn-secondary" data-copy-target="text-input" data-copy-feedback="copy-text-feedback">Copy</button>
                     </div>
                     <span class="copy-feedback" id="copy-text-feedback" aria-live="polite"></span>
                 </div>
@@ -82,7 +82,7 @@
 Line 2: QA Testing
 Line 3: Clipboard functionality
 Line 4: Multiple lines work correctly</textarea>
-                    <button id="copy-textarea-btn" class="btn btn-secondary" data-copy-target="textarea-input">Copy to Clipboard</button>
+                    <button id="copy-textarea-btn" class="btn btn-secondary" data-copy-target="textarea-input" data-copy-feedback="copy-textarea-feedback">Copy to Clipboard</button>
                     <span class="copy-feedback" id="copy-textarea-feedback" aria-live="polite"></span>
                 </div>
 
@@ -91,7 +91,7 @@ Line 4: Multiple lines work correctly</textarea>
                     <div class="generated-content" id="generated-content">
                         <code id="generated-text">const uuid = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";</code>
                     </div>
-                    <button id="copy-generated-btn" class="btn btn-secondary" data-copy-target="generated-text">Copy Code</button>
+                    <button id="copy-generated-btn" class="btn btn-secondary" data-copy-target="generated-text" data-copy-feedback="copy-generated-feedback">Copy Code</button>
                     <span class="copy-feedback" id="copy-generated-feedback" aria-live="polite"></span>
                 </div>
             </div>
