@@ -134,6 +134,11 @@ function initClipboard() {
 function copyToClipboard(text, btn) {
   var feedbackEl = btn.nextElementSibling;
 
+  if (text == null || text === "") {
+    showFeedback(feedbackEl, "Nothing to copy");
+    return;
+  }
+
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(function () {
       showFeedback(feedbackEl, "Copied!");
@@ -146,6 +151,10 @@ function copyToClipboard(text, btn) {
 }
 
 function fallbackCopy(text, feedbackEl) {
+  if (text == null || text === "") {
+    showFeedback(feedbackEl, "Nothing to copy");
+    return;
+  }
   var textarea = document.createElement("textarea");
   textarea.value = text;
   textarea.style.position = "fixed";
