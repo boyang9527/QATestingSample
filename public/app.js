@@ -121,10 +121,32 @@ function initFileUpload() {
 
 function initClipboard() {
   var buttons = document.querySelectorAll("[data-copy-target]");
+  // Allowlist of ids that are permitted copy sources. The lookup is
+  // additionally scoped to the button's own .clipboard-item block so an
+  // element elsewhere in the document that happens to answer to the id
+  // (e.g. via DOM clobbering) can never become the clipboard payload.
+  var ALLOWED_COPY_TARGETS = { "text-input": true, "textarea-input": true, "generated-text": true };
   buttons.forEach(function (btn) {
     btn.addEventListener("click", function () {
+      var feedbackEl = btn.nextElementSibling;
       var targetId = btn.getAttribute("data-copy-target");
-      var target = document.getElementById(targetId);
+      if (!targetId || !Object.prototype.hasOwnProperty.call(ALLOWED_COPY_TARGETS, targetId)) {
+        showFeedback(feedbackEl, "Nothing to copy");
+        return;
+      }
+      var scope = btn.closest(".clipboard-item") || document;
+      // Resolve relative to the button's own block, and only accept element
+      // types that are legitimate copy sources.
+      var target = scope.querySelector(
+        "#" + CSS.escape(targetId) + ", input#" + CSS.escape(targetId) +
+        ", textarea#" + CSS.escape(targetId) + ", code#" + CSS.escape(targetId)
+      );
+      if (!target || !(target instanceof HTMLInputElement ||
+                       target instanceof HTMLTextAreaElement ||
+                       target.tagName === "CODE")) {
+        showFeedback(feedbackEl, "Nothing to copy");
+        return;
+      }
       var text = target.value !== undefined ? target.value : target.textContent;
       copyToClipboard(text, btn);
     });
