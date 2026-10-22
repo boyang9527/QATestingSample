@@ -1,20 +1,45 @@
 document.addEventListener("DOMContentLoaded", function () {
-  initNavigation();
-  initFileUpload();
-  initClipboard();
+  // Isolate initializers so a failure in one does not prevent the others
+  // from binding their event listeners.
+  [initNavigation, initFileUpload, initClipboard].forEach(function (fn) {
+    try { fn(); } catch (e) {
+      if (typeof console !== "undefined" && console.error) {
+        console.error(e);
+      }
+    }
+  });
 });
 
 function initNavigation() {
   var links = document.querySelectorAll(".nav-link");
   var loginBtn = document.getElementById("login-btn");
 
+  // Allow-list of known page ids. Any fragment outside this set is ignored.
+  var VALID_PAGES = { "login": 1, "file-upload": 1, "clipboard": 1 };
+  var DEFAULT_PAGE = "file-upload";
+
   function showPage(pageId) {
+    if (!Object.prototype.hasOwnProperty.call(VALID_PAGES, pageId)) {
+      pageId = DEFAULT_PAGE;
+    }
+    var page = document.getElementById(pageId);
+    if (!page) return;
+
     links.forEach(function (l) { l.classList.remove("active"); });
-    var navTarget = document.querySelector('[data-page="' + pageId + '"]');
+    // Select from the already-collected nav links by comparing the
+    // data-page attribute, avoiding any string concatenation into a CSS
+    // selector.
+    var navTarget = null;
+    for (var i = 0; i < links.length; i++) {
+      if (links[i].getAttribute("data-page") === pageId) {
+        navTarget = links[i];
+        break;
+      }
+    }
     if (navTarget) navTarget.classList.add("active");
 
     document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
-    document.getElementById(pageId).classList.add("active");
+    page.classList.add("active");
 
     window.location.hash = pageId;
   }
@@ -26,10 +51,12 @@ function initNavigation() {
     });
   });
 
-  loginBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    showPage("login");
-  });
+  if (loginBtn) {
+    loginBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      showPage("login");
+    });
+  }
 
   var hash = window.location.hash.replace("#", "");
   if (hash) {
