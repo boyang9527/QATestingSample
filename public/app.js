@@ -75,11 +75,23 @@ function initFileUpload() {
     fileInput.value = "";
   });
 
+  var MAX_FILES = 1000;
+  var MAX_TOTAL_BYTES = 1024 * 1024 * 1024 * 1024; // 1 TiB cap on cumulative size
+
   function handleFiles(files) {
+    var activeCount = uploadedFiles.filter(function (f) { return f !== null; }).length;
+    var currentTotal = uploadedFiles.reduce(function (sum, f) {
+      return sum + (f && Number.isFinite(f.size) && f.size > 0 ? f.size : 0);
+    }, 0);
     for (var i = 0; i < files.length; i++) {
+      if (activeCount >= MAX_FILES) break;
       var file = files[i];
+      var size = file && Number.isFinite(file.size) && file.size > 0 ? file.size : 0;
+      if (currentTotal + size > MAX_TOTAL_BYTES) break;
       uploadedFiles.push(file);
       addFileToList(file, uploadedFiles.length - 1);
+      activeCount++;
+      currentTotal += size;
     }
     updateStatus();
   }
@@ -112,9 +124,10 @@ function initFileUpload() {
   }
 
   function formatSize(bytes) {
-    if (bytes === 0) return "0 B";
-    var units = ["B", "KB", "MB", "GB"];
-    var i = Math.floor(Math.log(bytes) / Math.log(1024));
+    if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+    var units = ["B", "KB", "MB", "GB", "TB", "PB"];
+    var i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+    if (i < 0) i = 0;
     return (bytes / Math.pow(1024, i)).toFixed(1) + " " + units[i];
   }
 }
