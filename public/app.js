@@ -132,7 +132,7 @@ function initClipboard() {
 }
 
 function copyToClipboard(text, btn) {
-  var feedbackEl = btn.nextElementSibling;
+  var feedbackEl = resolveFeedbackEl(btn);
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(function () {
@@ -161,8 +161,28 @@ function fallbackCopy(text, feedbackEl) {
   document.body.removeChild(textarea);
 }
 
+function resolveFeedbackEl(btn) {
+  if (!btn) return null;
+  var explicitId = btn.getAttribute("data-copy-feedback");
+  if (explicitId) {
+    var byId = document.getElementById(explicitId);
+    if (byId) return byId;
+  }
+  var container = btn.closest(".clipboard-item");
+  if (container) {
+    var scoped = container.querySelector(".copy-feedback");
+    if (scoped) return scoped;
+  }
+  return null;
+}
+
 function showFeedback(el, message) {
-  if (!el) return;
+  if (!el) {
+    if (typeof console !== "undefined" && console.warn) {
+      console.warn("showFeedback: no feedback element available for message:", message);
+    }
+    return;
+  }
   el.textContent = message;
   el.classList.add("visible");
   setTimeout(function () {
