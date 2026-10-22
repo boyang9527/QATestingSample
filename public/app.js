@@ -152,12 +152,13 @@ function fallbackCopy(text, feedbackEl) {
   textarea.style.opacity = "0";
   document.body.appendChild(textarea);
   textarea.select();
+  var ok = false;
   try {
-    document.execCommand("copy");
-    showFeedback(feedbackEl, "Copied!");
+    ok = document.execCommand("copy");
   } catch (e) {
-    showFeedback(feedbackEl, "Failed to copy");
+    ok = false;
   }
+  showFeedback(feedbackEl, ok ? "Copied!" : "Failed to copy");
   document.body.removeChild(textarea);
 }
 
