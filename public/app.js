@@ -86,15 +86,28 @@ function initFileUpload() {
 
   function addFileToList(file, index) {
     var li = document.createElement("li");
-    li.setAttribute("data-index", index);
-    li.innerHTML =
-      '<span class="file-name">' + escapeHtml(file.name) + '</span>' +
-      '<span class="file-size">' + formatSize(file.size) + '</span>' +
-      '<button class="file-remove" data-index="' + index + '">Remove</button>';
+    li.dataset.index = String(index);
+
+    var nameSpan = document.createElement("span");
+    nameSpan.className = "file-name";
+    nameSpan.textContent = String(file && file.name != null ? file.name : "");
+
+    var sizeSpan = document.createElement("span");
+    sizeSpan.className = "file-size";
+    sizeSpan.textContent = formatSize(file.size);
+
+    var removeBtn = document.createElement("button");
+    removeBtn.className = "file-remove";
+    removeBtn.dataset.index = String(index);
+    removeBtn.textContent = "Remove";
+
+    li.appendChild(nameSpan);
+    li.appendChild(sizeSpan);
+    li.appendChild(removeBtn);
     fileItems.appendChild(li);
 
-    li.querySelector(".file-remove").addEventListener("click", function () {
-      var idx = parseInt(this.getAttribute("data-index"));
+    removeBtn.addEventListener("click", function () {
+      var idx = parseInt(this.dataset.index, 10);
       uploadedFiles[idx] = null;
       li.remove();
       updateStatus();
@@ -170,8 +183,20 @@ function showFeedback(el, message) {
   }, 2000);
 }
 
-function escapeHtml(str) {
-  var div = document.createElement("div");
-  div.appendChild(document.createTextNode(str));
-  return div.innerHTML;
+// escapeHtmlText: encodes a value for HTML *element text content* only.
+// Do NOT use the result inside an HTML attribute, href/src URL, <style>,
+// <script> or event-handler context — those contexts require different
+// encoding (and generally should be avoided in favour of DOM APIs such as
+// element.textContent or element.setAttribute on an element you created).
+// Non-string inputs are coerced via String(v); null/undefined become "".
+function escapeHtmlText(v) {
+  if (v === null || v === undefined) return "";
+  return String(v).replace(/[&<>\u00A0]/g, function (c) {
+    return ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\u00A0": "&nbsp;"
+    })[c];
+  });
 }
