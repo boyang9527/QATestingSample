@@ -85,16 +85,29 @@ function initFileUpload() {
   }
 
   function addFileToList(file, index) {
+    var idx = Number(index);
     var li = document.createElement("li");
-    li.setAttribute("data-index", index);
-    li.innerHTML =
-      '<span class="file-name">' + escapeHtml(file.name) + '</span>' +
-      '<span class="file-size">' + formatSize(file.size) + '</span>' +
-      '<button class="file-remove" data-index="' + index + '">Remove</button>';
+    li.setAttribute("data-index", String(idx));
+
+    var nameSpan = document.createElement("span");
+    nameSpan.className = "file-name";
+    nameSpan.textContent = file.name;
+
+    var sizeSpan = document.createElement("span");
+    sizeSpan.className = "file-size";
+    sizeSpan.textContent = formatSize(file.size);
+
+    var removeBtn = document.createElement("button");
+    removeBtn.className = "file-remove";
+    removeBtn.setAttribute("data-index", String(idx));
+    removeBtn.textContent = "Remove";
+
+    li.appendChild(nameSpan);
+    li.appendChild(sizeSpan);
+    li.appendChild(removeBtn);
     fileItems.appendChild(li);
 
-    li.querySelector(".file-remove").addEventListener("click", function () {
-      var idx = parseInt(this.getAttribute("data-index"));
+    removeBtn.addEventListener("click", function () {
       uploadedFiles[idx] = null;
       li.remove();
       updateStatus();
