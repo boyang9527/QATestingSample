@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'">
+    <meta name="referrer" content="no-referrer">
     <title>QA Testing Sample App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -25,20 +27,24 @@
         <section id="login" class="page">
             <h2>Login</h2>
             <div class="card login-card">
-                <p class="login-subtitle">Sign in with your social account</p>
-                <div class="social-login-buttons">
-                    <a href="https://accounts.google.com" class="btn-social btn-google">
+                <p class="login-subtitle">Demo only &mdash; this QA fixture does not perform authentication.</p>
+                <p class="login-demo-notice" role="note">
+                    <strong>Non-functional:</strong> the buttons below are visual placeholders used for
+                    UI testing. No OAuth/OIDC request is made and no session is created.
+                </p>
+                <div class="social-login-buttons" aria-label="Demo social sign-in buttons (non-functional)">
+                    <button type="button" class="btn-social btn-google" disabled aria-disabled="true" title="Demo only — not functional">
                         <span class="social-icon">G</span>
-                        Continue with Google
-                    </a>
-                    <a href="https://github.com/login" class="btn-social btn-github">
+                        Continue with Google (demo only)
+                    </button>
+                    <button type="button" class="btn-social btn-github" disabled aria-disabled="true" title="Demo only — not functional">
                         <span class="social-icon">GH</span>
-                        Continue with GitHub
-                    </a>
-                    <a href="https://appleid.apple.com" class="btn-social btn-apple">
+                        Continue with GitHub (demo only)
+                    </button>
+                    <button type="button" class="btn-social btn-apple" disabled aria-disabled="true" title="Demo only — not functional">
                         <span class="social-icon">A</span>
-                        Continue with Apple ID
-                    </a>
+                        Continue with Apple ID (demo only)
+                    </button>
                 </div>
             </div>
         </section>
