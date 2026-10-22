@@ -1,6 +1,12 @@
 version: 1
 frontend:
   phases:
+    preBuild:
+      commands:
+        # Enforce the committed package-lock.json integrity hashes and gate on
+        # known-vulnerable dependencies before producing any artifact.
+        - npm ci --ignore-scripts
+        - npm audit --audit-level=high
     build:
       commands:
         - echo "Static site - no build step required"

@@ -9,8 +9,13 @@ A web application used for QA agent testing of UI functions and UI inspection. D
 
 ## Run Locally
 
+Use `npm ci` (not `npm install`) so the committed `package-lock.json`
+integrity hashes are enforced exactly and the `serve` binary is resolved
+from the local, lockfile-verified `node_modules/.bin/` rather than fetched
+from the registry at invoke time:
+
 ```bash
-npm install
+npm ci --ignore-scripts
 npm start
 ```
 
